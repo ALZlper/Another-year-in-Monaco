@@ -87,7 +87,45 @@
 //Youtube convert
 //Youtube Upload
 //Soundcloud Upload
-//Tweet Episode
+
+    //Short url
+        $longUrl = "http://blog.alzlper.com/podcast/episode/?p=".$episode_Id;
+        
+        // Get API key from : http://code.google.com/apis/console/
+        $apiKey = '***';
+        
+        $postData = array('longUrl' => $longUrl, 'key' => $apiKey);
+        $jsonData = json_encode($postData);
+        
+        $curlObj = curl_init();
+        
+        curl_setopt($curlObj, CURLOPT_URL, 'https://www.googleapis.com/urlshortener/v1/url?key='.$apiKey);
+        curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curlObj, CURLOPT_HEADER, 0);
+        curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
+        curl_setopt($curlObj, CURLOPT_POST, 1);
+        curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+        
+        $response = curl_exec($curlObj);
+        
+        // Change the response json string to object
+        $json = json_decode($response);
+        curl_close($curlObj);
+        $link = $json->id;
+
+    //Tweet newEpisode
+        require_once('tweet/codebird.php');
+        
+        \Codebird\Codebird::setConsumerKey("XXPougCLYmvCTDRQVWpHxvqe6", "Ndh5la0lMF9dmfBXS4qZikaQA3oxyCHkLbLZOybO1XANp2Yv75");
+        $cb = \Codebird\Codebird::getInstance();
+        $cb->setToken("2266539490-c1WjkgCssoO29IokNfB4MhmotoyBb53pve82mw4", "upWR1pgJq5c2a8uXITQdEMJixRkPsttu31clxxGF5NWT7");
+        
+        $params = array(
+            'status' => "#AnotherYearInMonaco Jetzt anhören: \n".(substr($episode_Title, 0, 210) != $episode_Title ? substr($episode_Title, 0, 207)."..." : $episode_Title)."\n".$link,
+            'media[]'=> $uploaddir.$uploadfile_ThumbnailWeb
+        );
+        $reply = $cb->statuses_updateWithMedia($params);
 
     } else {
 ?>
