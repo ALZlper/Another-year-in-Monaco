@@ -117,9 +117,9 @@
     //Tweet newEpisode
         require_once('tweet/codebird.php');
         
-        \Codebird\Codebird::setConsumerKey("XXPougCLYmvCTDRQVWpHxvqe6", "Ndh5la0lMF9dmfBXS4qZikaQA3oxyCHkLbLZOybO1XANp2Yv75");
+        \Codebird\Codebird::setConsumerKey("*****", "*****");
         $cb = \Codebird\Codebird::getInstance();
-        $cb->setToken("2266539490-c1WjkgCssoO29IokNfB4MhmotoyBb53pve82mw4", "upWR1pgJq5c2a8uXITQdEMJixRkPsttu31clxxGF5NWT7");
+        $cb->setToken("*****", "*****");
         
         $params = array(
             'status' => "#AnotherYearInMonaco Jetzt anhören: \n".(substr($episode_Title, 0, 210) != $episode_Title ? substr($episode_Title, 0, 207)."..." : $episode_Title)."\n".$link,
